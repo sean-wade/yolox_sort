@@ -17,7 +17,7 @@ int main()
 {
     // iou_test();
     // track_test_folder();
-    track_test_video("../test/tieyun.mp4");
+    track_test_video("../test/tieyun2.mp4");
 }
 
 
@@ -37,8 +37,10 @@ void track_test_video(std::string video_path)
     options.batch_size = 1;
     options.engineInputTensorNames = {"images"};
     options.engineOutputTensorNames = {"output"};
-    options.onnx_path   = "/home/zhanghao/code/others/zc/yolox_deploy/models/zc_nano_480_640_pad.onnx";
-    options.engine_path = "/home/zhanghao/code/others/zc/yolox_deploy/models/zc_nano_480_640_pad.engine";
+    options.onnx_path   = "../models/zc_nano_480_640_pad.onnx";
+    options.engine_path = "../models/zc_nano_480_640_pad.engine";
+    // options.onnx_path   = "../models/zc_nano_rep_480_640_nopad.onnx";
+    // options.engine_path = "../models/zc_nano_rep_480_640_nopad.engine";
     options.score_threshold = 0.45;
     options.nms_threshold = 0.25;
     options.gpu_id = 0;
