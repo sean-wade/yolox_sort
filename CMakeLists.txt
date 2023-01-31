@@ -57,12 +57,12 @@ message("API_SOURCES: ${API_SOURCES}")
 
 add_executable(test_detector ${PROJECT_SOURCE_DIR}/test/test_detector.cpp ${API_SOURCES})
 target_link_libraries(test_detector ${OpenCV_LIBS})
-target_link_libraries(test_detector nvinfer nvonnxparser)
+target_link_libraries(test_detector nvinfer nvonnxparser ${PROJECT_SOURCE_DIR}/lib/libyolov5_trt.so)
 target_link_libraries(test_detector ${CUDA_LIBRARIES})
 
 add_executable(test_tracker ${PROJECT_SOURCE_DIR}/test/test_tracker.cpp ${API_SOURCES})
 target_link_libraries(test_tracker ${OpenCV_LIBS})
-target_link_libraries(test_tracker nvinfer nvonnxparser)
+target_link_libraries(test_tracker nvinfer nvonnxparser ${PROJECT_SOURCE_DIR}/lib/libyolov5_trt.so)
 target_link_libraries(test_tracker ${CUDA_LIBRARIES})
 
 # add_executable(test_pipeline ${PROJECT_SOURCE_DIR}/test/test_pipeline.cpp ${API_SOURCES})

@@ -7,6 +7,7 @@
 ```
     yolox-nano:         max-22ms
     yolox-rep-nano:     max-19ms
+    yolov5-nano:        max-28ms
 ```
 
 

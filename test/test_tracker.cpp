@@ -8,7 +8,12 @@
 #include <chrono>
 #include "lib/tracker/sortx.h"
 #include "lib/detector/detector_yolox.h"
+#include "lib/detector/yolov5/detector_yolov5_wrapper.h"
 #include "lib/tracker/tracker_utils/tracker_utils.h"
+
+#define SAVE_NOT_SHOW
+#define SAVE_DIR "../test/trk_5/"
+// #define USE_YOLOX_DETECTOR
 
 using namespace cv;
 void track_test_video(std::string video_path);
@@ -26,8 +31,9 @@ void track_test_video(std::string video_path)
     std::cout << "Video path = " << video_path << std::endl;
     VideoCapture cap(video_path);
 
+#ifdef USE_YOLOX_DETECTOR
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //// Init Detector
+    //// Init Detector (YOLOX)
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     DetectorInitOptions options;
@@ -46,12 +52,26 @@ void track_test_video(std::string video_path)
     options.gpu_id = 0;
     options.ues_fp16 = true;
 
-    DetectorYoloX yolox_det;
-    std::cout << "Detecor name = " << yolox_det.Name() << std::endl;
-    bool status = yolox_det.Init(options);
+    DetectorYoloX detector;
+    std::cout << "Detecor name = " << detector.Name() << std::endl;
+    bool status = detector.Init(options);
     std::cout << "Detecor Init status = " << status << std::endl;
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#else
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //// Init Detector (YOLOv5)
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    DetectorInitOptions options;
+    options.engine_path = "../models/zc_y5_20230109_3cls.engine";
+    options.gpu_id = 0;
+
+    YoloV5DetectorWrapper detector;
+    std::cout << "Detecor name = " << detector.Name() << std::endl;
+    bool status = detector.Init(options);
+    std::cout << "Detecor Init status = " << status << std::endl;
+    //////////
+#endif
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //// Init Tracker
@@ -76,6 +96,9 @@ void track_test_video(std::string video_path)
     while(cap.isOpened())
     {
         cap >> frame;
+        if(frame.empty()){
+            break;
+        }
         CameraFrame camera_frame;
         camera_frame.timestamp = i * 0.1;
         i++;
@@ -83,7 +106,7 @@ void track_test_video(std::string video_path)
         auto start = std::chrono::system_clock::now();
 
         camera_frame.image_ptr = &frame;
-        yolox_det.Detect(&camera_frame);
+        detector.Detect(&camera_frame);
         std::cout << "Det size = " << camera_frame.det_objects.size() << std::endl;
 
         sortx.Track(&camera_frame);
@@ -93,11 +116,14 @@ void track_test_video(std::string video_path)
         auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
         std::cout << "Frame " << i << " using: " << dur  << "ms, track_num = " << camera_frame.trk_objects.size() << std::endl;
 
-        // camera_frame.SaveImg("../test/trk/" + filenames[i].substr(15, 24));
+#ifdef SAVE_NOT_SHOW
+        camera_frame.SaveImg(SAVE_DIR + std::to_string(i) + ".jpg");
+#else
         imshow("track", *camera_frame.image_ptr);
         if (waitKey(30) == 'q') {
             break;
         }
+#endif
     }  
     destroyAllWindows();
     cap.release();
@@ -128,9 +154,9 @@ void track_test_folder()
     options.gpu_id = 0;
     options.ues_fp16 = true;
 
-    DetectorYoloX yolox_det;
-    std::cout << "Detecor name = " << yolox_det.Name() << std::endl;
-    bool status = yolox_det.Init(options);
+    DetectorYoloX detector;
+    std::cout << "Detecor name = " << detector.Name() << std::endl;
+    bool status = detector.Init(options);
     std::cout << "Detecor Init status = " << status << std::endl;
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -161,7 +187,7 @@ void track_test_folder()
         auto start = std::chrono::system_clock::now();
 
         camera_frame.image_ptr = &image;
-        yolox_det.Detect(&camera_frame);
+        detector.Detect(&camera_frame);
         std::cout << "Det size = " << camera_frame.det_objects.size() << std::endl;
 
         sortx.Track(&camera_frame);

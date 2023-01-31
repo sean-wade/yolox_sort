@@ -69,7 +69,7 @@ class DetectorYoloX : public BaseDetector
          * @author: zhanghao
          */
         virtual std::string Name() const {
-            return "zc_nano";
+            return "zc_x_nano";
         };
 
 
