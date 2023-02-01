@@ -13,7 +13,7 @@
 
 // #define SAVE_NOT_SHOW
 // #define SAVE_DIR "../test/trk_5/"
-// #define USE_YOLOX_DETECTOR
+#define USE_YOLOX_DETECTOR
 
 using namespace cv;
 void track_test_video(std::string video_path);
@@ -43,10 +43,10 @@ void track_test_video(std::string video_path)
     options.batch_size = 1;
     options.engineInputTensorNames = {"images"};
     options.engineOutputTensorNames = {"output"};
-    options.onnx_path   = "../models/zc_nano_rep_480_640_nopad.onnx";
-    options.engine_path = "../models/zc_nano_rep_480_640_nopad.engine";
-    // options.onnx_path   = "../models/zc_nano_480_640_pad.onnx";
-    // options.engine_path = "../models/zc_nano_480_640_pad.engine";
+    // options.onnx_path   = "../models/zc_nano_rep_480_640_nopad.onnx";
+    // options.engine_path = "../models/zc_nano_rep_480_640_nopad.engine";
+    options.onnx_path   = "../models/zc_nano_480_640_nopad.onnx";
+    options.engine_path = "../models/zc_nano_480_640_nopad.engine";
     options.score_threshold = 0.60;
     options.nms_threshold = 0.25;
     options.gpu_id = 0;
