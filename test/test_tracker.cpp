@@ -11,8 +11,8 @@
 #include "lib/detector/yolov5/detector_yolov5_wrapper.h"
 #include "lib/tracker/tracker_utils/tracker_utils.h"
 
-#define SAVE_NOT_SHOW
-#define SAVE_DIR "../test/trk_5/"
+// #define SAVE_NOT_SHOW
+// #define SAVE_DIR "../test/trk_5/"
 // #define USE_YOLOX_DETECTOR
 
 using namespace cv;
@@ -43,11 +43,11 @@ void track_test_video(std::string video_path)
     options.batch_size = 1;
     options.engineInputTensorNames = {"images"};
     options.engineOutputTensorNames = {"output"};
-    options.onnx_path   = "../models/zc_nano_480_640_pad.onnx";
-    options.engine_path = "../models/zc_nano_480_640_pad.engine";
-    // options.onnx_path   = "../models/zc_nano_rep_480_640_nopad.onnx";
-    // options.engine_path = "../models/zc_nano_rep_480_640_nopad.engine";
-    options.score_threshold = 0.45;
+    options.onnx_path   = "../models/zc_nano_rep_480_640_nopad.onnx";
+    options.engine_path = "../models/zc_nano_rep_480_640_nopad.engine";
+    // options.onnx_path   = "../models/zc_nano_480_640_pad.onnx";
+    // options.engine_path = "../models/zc_nano_480_640_pad.engine";
+    options.score_threshold = 0.60;
     options.nms_threshold = 0.25;
     options.gpu_id = 0;
     options.ues_fp16 = true;
@@ -77,12 +77,12 @@ void track_test_video(std::string video_path)
     //// Init Tracker
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
     TrackerInitOptions trk_options;
-    trk_options.use_giou = true;
+    trk_options.use_giou = false;
     trk_options.use_gpu = false;
     trk_options.max_age = 2;
-    trk_options.min_hits = 5;
-    trk_options.max_predict = 3;
-    trk_options.iou_threshold = -0.5;
+    trk_options.min_hits = 2;
+    trk_options.max_predict = 5;
+    trk_options.iou_threshold = 0.1;
 
     SortX sortx;
     std::cout << "Tracker name = " << sortx.Name() << std::endl;
@@ -90,7 +90,10 @@ void track_test_video(std::string video_path)
     std::cout << "Tracker Init status = " << status << std::endl;
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // for(int i=0; i<filenames.size(); i++)
+    float avg_det_time = 0.0;
+    float avg_trk_time = 0.0;
+    float avg_dur_time = 0.0;
+
     int i=0;
     Mat frame;
     while(cap.isOpened())
@@ -103,30 +106,45 @@ void track_test_video(std::string video_path)
         camera_frame.timestamp = i * 0.1;
         i++;
 
-        auto start = std::chrono::system_clock::now();
+        auto t0 = std::chrono::system_clock::now();
 
         camera_frame.image_ptr = &frame;
         detector.Detect(&camera_frame);
-        std::cout << "Det size = " << camera_frame.det_objects.size() << std::endl;
+        // std::cout << "Det size = " << camera_frame.det_objects.size() << std::endl;
 
+        auto t1 = std::chrono::system_clock::now();
+        if(i > 0)
+            avg_det_time += std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
+        
         sortx.Track(&camera_frame);
         camera_frame.PlotTrks();
 
-        auto end = std::chrono::system_clock::now();
-        auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+        auto t2 = std::chrono::system_clock::now();
+        if(i > 0)
+            avg_trk_time += std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+        
+        // auto end = std::chrono::system_clock::now();
+        auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t0).count();
         std::cout << "Frame " << i << " using: " << dur  << "ms, track_num = " << camera_frame.trk_objects.size() << std::endl;
+        if(i > 0)
+            avg_dur_time += dur;
 
-#ifdef SAVE_NOT_SHOW
-        camera_frame.SaveImg(SAVE_DIR + std::to_string(i) + ".jpg");
-#else
-        imshow("track", *camera_frame.image_ptr);
-        if (waitKey(30) == 'q') {
-            break;
-        }
-#endif
+// #ifdef SAVE_NOT_SHOW
+//         camera_frame.SaveImg(SAVE_DIR + std::to_string(i) + ".jpg");
+// #else
+//         imshow("track", *camera_frame.image_ptr);
+//         if (waitKey(30) == 'q') {
+//             break;
+//         }
+// #endif
     }  
     destroyAllWindows();
     cap.release();
+
+    std::cout << "Detect avg using avg: " << avg_det_time / (i-1) << "ms " << std::endl;
+    std::cout << "Track avg using avg: " << avg_trk_time / (i-1) << "ms " << std::endl;
+    std::cout << "Duration avg using avg: " << avg_dur_time / (i-1) << "ms " << std::endl;
+    
 }
 
 
