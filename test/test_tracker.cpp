@@ -11,8 +11,8 @@
 #include "lib/detector/yolov5/detector_yolov5_wrapper.h"
 #include "lib/tracker/tracker_utils/tracker_utils.h"
 
-// #define SAVE_NOT_SHOW
-// #define SAVE_DIR "../test/trk_5/"
+#define SAVE_NOT_SHOW
+#define SAVE_DIR "../test/trk/"
 #define USE_YOLOX_DETECTOR
 
 using namespace cv;
@@ -22,7 +22,8 @@ int main()
 {
     // iou_test();
     // track_test_folder();
-    track_test_video("../test/tieyun2.mp4");
+    track_test_video("../test/videos/2022GC1-28.mp4");
+    // track_test_video("../test/videos/tieyun.mp4");
 }
 
 
@@ -43,10 +44,10 @@ void track_test_video(std::string video_path)
     options.batch_size = 1;
     options.engineInputTensorNames = {"images"};
     options.engineOutputTensorNames = {"output"};
-    // options.onnx_path   = "../models/zc_nano_rep_480_640_nopad.onnx";
-    // options.engine_path = "../models/zc_nano_rep_480_640_nopad.engine";
-    options.onnx_path   = "../models/zc_nano_480_640_nopad.onnx";
-    options.engine_path = "../models/zc_nano_480_640_nopad.engine";
+    options.onnx_path   = "../models/zc_nanox_rep_486_640_nopad.onnx";
+    options.engine_path = "../models/zc_nanox_rep_486_640_nopad.engine";
+    // options.onnx_path   = "../models/zc_nanox_486_640_nopad.onnx";
+    // options.engine_path = "../models/zc_nanox_486_640_nopad.engine";
     options.score_threshold = 0.60;
     options.nms_threshold = 0.25;
     options.gpu_id = 0;
@@ -129,14 +130,14 @@ void track_test_video(std::string video_path)
         if(i > 0)
             avg_dur_time += dur;
 
-// #ifdef SAVE_NOT_SHOW
-//         camera_frame.SaveImg(SAVE_DIR + std::to_string(i) + ".jpg");
-// #else
-//         imshow("track", *camera_frame.image_ptr);
-//         if (waitKey(30) == 'q') {
-//             break;
-//         }
-// #endif
+#ifdef SAVE_NOT_SHOW
+        camera_frame.SaveImg(SAVE_DIR + std::to_string(i) + ".jpg");
+#else
+        imshow("track", *camera_frame.image_ptr);
+        if (waitKey(30) == 'q') {
+            break;
+        }
+#endif
     }  
     destroyAllWindows();
     cap.release();
