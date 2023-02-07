@@ -32,6 +32,7 @@ void CameraFrame::SaveImg(std::string save_path)
 void CameraFrame::ResizeImg(int w, int h)
 {
     cv::resize(*image_ptr, *image_ptr, cv::Size(w, h));
+    // cv::resize(*image_ptr, *image_ptr, cv::Size(w, h), cv::INTER_AREA);
 }
 
 

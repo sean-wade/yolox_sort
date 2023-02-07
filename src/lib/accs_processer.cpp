@@ -79,7 +79,7 @@ bool AccsProcesser::Process(CameraFrame* camera_frame)
     time_start = clock();
 #endif
     
-    camera_frame->ResizeImg(m_img_width_, m_img_height_);
+    // camera_frame->ResizeImg(m_img_width_, m_img_height_);
 
     bool status;
     status = m_detector_.Detect(camera_frame);

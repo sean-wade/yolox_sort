@@ -39,6 +39,7 @@ void test_video(std::string video_path)
         camera_frame.timestamp = i * 0.1;
         i++;
         camera_frame.image_ptr = &frame;
+        camera_frame.ResizeImg(640, 480);
 
         accs_processer.Process(&camera_frame);
         
