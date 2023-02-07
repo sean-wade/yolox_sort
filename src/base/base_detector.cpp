@@ -1,7 +1,7 @@
 /* 
  * @Author: zhanghao
- * @LastEditTime: 2023-01-16 17:37:04
- * @FilePath: /yolox_deploy/src/base/base_detector.cpp
+ * @LastEditTime: 2023-02-06 16:11:44
+ * @FilePath: /yolox_sort/src/base/base_detector.cpp
  * @LastEditors: zhanghao
  * @Description: 
  */
@@ -14,7 +14,7 @@ bool BaseDetector::_ParseOnnxToEngine()
     auto _builder = nvinfer1::createInferBuilder(m_logger_);
     if (!_builder)
     { 
-        printf("Builder not created !");
+        ERROR << "Builder not created !";
         return false;
     }
 
@@ -22,29 +22,29 @@ bool BaseDetector::_ParseOnnxToEngine()
     auto _network = _builder->createNetworkV2(explicitBatch);
     if (!_network)
     {
-        printf("Network not created ! ");
+        ERROR << ("Network not created ! ");
         return false;
     }
 
     auto _config = _builder->createBuilderConfig();
     if (!_config)
     {
-        printf("Config not created ! ");
+        ERROR << ("Config not created ! ");
         return false;
     }
 
     auto _parser = nvonnxparser::createParser(*_network, m_logger_);
     if (!_parser)
     {
-        printf("Parser not created ! ");
+        ERROR << ("Parser not created ! ");
         return false;
     }
-    printf("BaseDetector::ConstructNetwork start!");
+    DEBUG << ("BaseDetector::ConstructNetwork start!");
 
     auto parsed = _parser->parseFromFile(m_options_.onnx_path.c_str(), static_cast<int>(nvinfer1::ILogger::Severity::kWARNING));
     if (!parsed)
     {
-        printf("Onnx model cannot be parsed ! ");
+        ERROR << ("ox model cannot be parsed ! ");
         return false;
     }
 
@@ -53,11 +53,11 @@ bool BaseDetector::_ParseOnnxToEngine()
     if (m_options_.ues_fp16)
     {
         _config->setFlag(nvinfer1::BuilderFlag::kFP16);
-        printf("Using FP16 mode, this may take several minutes... Please wait......");
+        WARN << ("Using FP16 mode, this may take several minutes... Please wait......");
     }
     else
     {
-        printf("Using FP32 mode.");
+        WARN << ("Using FP32 mode.");
     }
 
     // printf("BaseDetector::buildEngineWithConfig start!");
@@ -67,7 +67,7 @@ bool BaseDetector::_ParseOnnxToEngine()
 
     if (!m_engine_)
     {
-        printf("Engine cannot be built ! ");
+        ERROR << ("Engine cannot be built ! ");
         return false;
     }
     // printf("BaseDetector::Create Engine done!");
@@ -89,7 +89,7 @@ bool BaseDetector::_ParseOnnxToEngine()
     // delete m_engine_;
     if(!_DeserializeEngineFromFile())
     {
-        printf("Engine rebuild failed!");
+        ERROR << ("Engine rebuild failed!");
         return false;
     }
     // printf("BaseDetector::DeserializeEngineFromFile done!");
@@ -102,19 +102,19 @@ bool BaseDetector::_SerializeEngineToFile()
 {
     if(m_options_.engine_path == "") 
     {
-        printf("Empty engine file name, skip save");
+        WARN << ("Empty engine file name, skip save");
         return false;
     }
     
     if(m_engine_ != nullptr) 
     {
-        printf("Saving engine to %s...", m_options_.engine_path.c_str());
+        DEBUG << "Saving engine to " << m_options_.engine_path;
         nvinfer1::IHostMemory* modelStream = m_engine_->serialize();
         std::ofstream file;
         file.open(m_options_.engine_path, std::ios::binary | std::ios::out);
         if(!file.is_open()) 
         {
-            printf("Cannot write to engine file {}!");
+            ERROR << ("Cannot write to engine file {}!");
             return false;
         }
         file.write((const char*)modelStream->data(), modelStream->size());
@@ -124,11 +124,11 @@ bool BaseDetector::_SerializeEngineToFile()
     } 
     else 
     {
-        printf("Engine is empty, save engine failed");
+        ERROR << ("Engine is empty, save engine failed");
         return false;
     }
 
-    printf("Saving engine succeed.");
+    DEBUG << ("Saving engine succeed.");
     return true;
 }
 
@@ -152,7 +152,7 @@ bool BaseDetector::_DeserializeEngineFromFile()
     }
     else
     {
-        printf("Cannot open engine path [%s]!", m_options_.engine_path.c_str());
+        ERROR << "Cannot open engine path : " << m_options_.engine_path;
         return false;
     }
 

@@ -1,7 +1,7 @@
 /* 
  * @Author: zhanghao
- * @LastEditTime: 2023-01-16 17:37:24
- * @FilePath: /yolox_deploy/src/lib/detector/detector_yolox.cpp
+ * @LastEditTime: 2023-02-07 10:54:11
+ * @FilePath: /yolox_sort/src/lib/detector/detector_yolox.cpp
  * @LastEditors: zhanghao
  * @Description: 
  */
@@ -72,28 +72,28 @@ bool DetectorYoloX::_InitEngine()
     bool engine_exists = access(m_options_.engine_path.c_str(), F_OK) == 0;
     if(engine_exists)
     {
-        printf("Engine file exist. Build from serialized engine : [%s]", m_options_.engine_path.c_str());
+        INFO << "Eg file exist. Load from serialized eg : " << m_options_.engine_path;
 
         bool desrial_status = _DeserializeEngineFromFile();
         if(!desrial_status)
         {
-            printf("Engine build failed!");
+            FETAL << "Eg loading failed!";
             return false;
         }
 
-        printf("Engine build success!");
+        INFO << "Eg loading success!";
     }                       
     else
     {
-        printf("Engine file does not exist! Build from onnx! This will take a while...");
-        printf("Onnx path: %s", m_options_.onnx_path.c_str());
+        WARN << "Eg file does not exist! Build from ox! This will take a while...";
+        INFO << "Ox path: " << m_options_.onnx_path;
         
         if(!_ParseOnnxToEngine())
         {
-            printf("Onnx parse failed!");
+            FETAL << "Ox parse failed!";
             return false;
         }
-        printf("Engine has been created !");
+        INFO << "Eg has been created !";
     }
     
     return true;
@@ -153,7 +153,10 @@ void DetectorYoloX::_Preprocess(cv::Mat* img_ptr)
     m_ori_img_w_ = img_ptr->cols;
     m_ori_img_h_ = img_ptr->rows;
     m_scale_ = std::min(m_input_w_ / (img_ptr->cols*1.0), m_input_h_ / (img_ptr->rows*1.0));
-    
+    // std::cout << "m_ori_img_w_ = " << m_ori_img_w_ << "\n";
+    // std::cout << "m_ori_img_h_ = " << m_ori_img_h_ << "\n";
+    // std::cout << "m_scale_ = " << m_scale_ << "\n";
+
     if(m_scale_ == 1)
     {
         for (size_t c = 0; c < m_img_channel_; c++) 

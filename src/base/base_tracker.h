@@ -1,7 +1,7 @@
 /* 
  * @Author: zhanghao
- * @LastEditTime: 2022-11-10 19:46:32
- * @FilePath: /camera_traffic_light_pipeline/src/base/base_tracker.h
+ * @LastEditTime: 2023-02-07 10:21:09
+ * @FilePath: /yolox_sort/src/base/base_tracker.h
  * @LastEditors: zhanghao
  * @Description: 
  */
@@ -15,13 +15,13 @@
 //TODO: 去掉默认参数，改为实现中继承并赋值
 struct TrackerInitOptions
 {
-    bool use_giou = true;
+    bool use_giou = false;
     bool use_gpu = false;
-    int max_age = 2;
+    int max_age = 5;
     int min_hits = 2;
-    int max_predict = 1;
+    int max_predict = 5;
     
-    float iou_threshold = -1.0;
+    float iou_threshold = 0.1;
 };
 
 

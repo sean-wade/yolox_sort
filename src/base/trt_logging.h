@@ -445,7 +445,7 @@ namespace
 //!
 //!     LOG_VERBOSE(logger) << "hello world" << std::endl;
 //!
-inline LogStreamConsumer LOG_VERBOSE(const Logger& logger)
+inline LogStreamConsumer LOG__VERBOSE(const Logger& logger)
 {
     return LogStreamConsumer(logger.getReportableSeverity(), Severity::kVERBOSE);
 }
@@ -457,7 +457,7 @@ inline LogStreamConsumer LOG_VERBOSE(const Logger& logger)
 //!
 //!     LOG_INFO(logger) << "hello world" << std::endl;
 //!
-inline LogStreamConsumer LOG_INFO(const Logger& logger)
+inline LogStreamConsumer LOG__INFO(const Logger& logger)
 {
     return LogStreamConsumer(logger.getReportableSeverity(), Severity::kINFO);
 }
@@ -469,7 +469,7 @@ inline LogStreamConsumer LOG_INFO(const Logger& logger)
 //!
 //!     LOG_WARN(logger) << "hello world" << std::endl;
 //!
-inline LogStreamConsumer LOG_WARN(const Logger& logger)
+inline LogStreamConsumer LOG__WARN(const Logger& logger)
 {
     return LogStreamConsumer(logger.getReportableSeverity(), Severity::kWARNING);
 }
@@ -481,7 +481,7 @@ inline LogStreamConsumer LOG_WARN(const Logger& logger)
 //!
 //!     LOG_ERROR(logger) << "hello world" << std::endl;
 //!
-inline LogStreamConsumer LOG_ERROR(const Logger& logger)
+inline LogStreamConsumer LOG__ERROR(const Logger& logger)
 {
     return LogStreamConsumer(logger.getReportableSeverity(), Severity::kERROR);
 }
@@ -494,7 +494,7 @@ inline LogStreamConsumer LOG_ERROR(const Logger& logger)
 //!
 //!     LOG_FATAL(logger) << "hello world" << std::endl;
 //!
-inline LogStreamConsumer LOG_FATAL(const Logger& logger)
+inline LogStreamConsumer LOG__FATAL(const Logger& logger)
 {
     return LogStreamConsumer(logger.getReportableSeverity(), Severity::kINTERNAL_ERROR);
 }

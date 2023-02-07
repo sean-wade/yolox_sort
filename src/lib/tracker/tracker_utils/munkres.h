@@ -1,7 +1,7 @@
 /* 
  * @Author: zhanghao
- * @LastEditTime: 2022-09-05 17:32:22
- * @FilePath: /camera_traffic_light_pipeline/src/lib/tracker/tracker_utils/munkres.h
+ * @LastEditTime: 2023-02-06 14:46:55
+ * @FilePath: /yolox_sort/src/lib/tracker/tracker_utils/munkres.h
  * @LastEditors: zhanghao
  * @Description: 
  */
@@ -18,7 +18,7 @@
 #include <cmath>
 #include <limits>
 
-// #define DEBUG
+// #define DEBUG_MUNKRES
 
 template<typename Data> class Munkres
 {
@@ -42,7 +42,7 @@ public:
                 columns = m.columns(),
                 size = std::max(rows, columns);
 
-#ifdef DEBUG
+#ifdef DEBUG_MUNKRES
         std::cout << "Munkres input: " << m << std::endl;
 #endif
 
@@ -117,7 +117,7 @@ public:
             }
         }
 
-#ifdef DEBUG
+#ifdef DEBUG_MUNKRES
         std::cout << "Munkres output: " << matrix << std::endl;
 #endif
         // Remove the excess rows or columns that we added to fit the
@@ -264,13 +264,13 @@ private:
         }
 
     if ( covercount >= matrix.minsize() ) {
-  #ifdef DEBUG
+  #ifdef DEBUG_MUNKRES
       std::cout << "Final cover count: " << covercount << std::endl;
   #endif
       return 0;
     }
 
-  #ifdef DEBUG
+  #ifdef DEBUG_MUNKRES
     std::cout << "Munkres matrix has " << covercount << " of " << matrix.minsize() << " Columns covered:" << std::endl;
     std::cout << matrix << std::endl;
   #endif

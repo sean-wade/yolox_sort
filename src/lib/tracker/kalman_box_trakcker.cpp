@@ -1,7 +1,7 @@
 /* 
  * @Author: zhanghao
- * @LastEditTime: 2023-01-16 15:08:31
- * @FilePath: /yolox_deploy/src/lib/tracker/kalman_box_trakcker.cpp
+ * @LastEditTime: 2023-02-06 14:22:40
+ * @FilePath: /yolox_sort/src/lib/tracker/kalman_box_trakcker.cpp
  * @LastEditors: zhanghao
  * @Description: 
  */
@@ -61,10 +61,10 @@ void KalmanBoxTrackerCV::_InitCoef()
     m_kalman_filter_.R_ = Eigen::MatrixXd::Identity(4, 4);
 
     m_kalman_filter_.R_ << 
-        0.01,    0,    0,    0, 
-        0,    0.01,    0,    0, 
-        0,      0,  0.1,    0, 
-        0,      0,    0,  0.1;
+        1,    0,    0,    0, 
+        0,    1,    0,    0, 
+        0,    0,    1,    0, 
+        0,    0,    0,    1;
 
     m_kalman_filter_.P_(4,4) = m_kalman_filter_.P_(5,5) = m_kalman_filter_.P_(6,6) = 100;
     // m_kalman_filter_.Q_(4,4) = m_kalman_filter_.Q_(5,5) = 0.1;

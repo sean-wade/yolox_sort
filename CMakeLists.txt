@@ -40,7 +40,9 @@ message("OpenCV_LIBS: ${OpenCV_LIBS}")
 ## head files include 
 include_directories(
     ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/src/lib
     ${PROJECT_SOURCE_DIR}/src/types
+    ${PROJECT_SOURCE_DIR}/src/utils
     ${PROJECT_SOURCE_DIR}/src/base
     ${PROJECT_SOURCE_DIR}/src/lib/detector
     ${PROJECT_SOURCE_DIR}/src/lib/tracker
@@ -55,20 +57,24 @@ include_directories(
 file(GLOB_RECURSE API_SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
 message("API_SOURCES: ${API_SOURCES}")
 
-add_executable(test_detector ${PROJECT_SOURCE_DIR}/test/test_detector.cpp ${API_SOURCES})
-target_link_libraries(test_detector ${OpenCV_LIBS})
-target_link_libraries(test_detector nvinfer nvonnxparser ${PROJECT_SOURCE_DIR}/lib/libyolov5_trt.so)
-target_link_libraries(test_detector ${CUDA_LIBRARIES})
+# add_executable(test_detector ${PROJECT_SOURCE_DIR}/test/test_detector.cpp ${API_SOURCES})
+# target_link_libraries(test_detector ${OpenCV_LIBS})
+# target_link_libraries(test_detector nvinfer nvonnxparser ${PROJECT_SOURCE_DIR}/lib/libyolov5_trt.so)
+# target_link_libraries(test_detector ${CUDA_LIBRARIES})
 
-add_executable(test_tracker ${PROJECT_SOURCE_DIR}/test/test_tracker.cpp ${API_SOURCES})
-target_link_libraries(test_tracker ${OpenCV_LIBS})
-target_link_libraries(test_tracker nvinfer nvonnxparser ${PROJECT_SOURCE_DIR}/lib/libyolov5_trt.so)
-target_link_libraries(test_tracker ${CUDA_LIBRARIES})
+# add_executable(test_tracker ${PROJECT_SOURCE_DIR}/test/test_tracker.cpp ${API_SOURCES})
+# target_link_libraries(test_tracker ${OpenCV_LIBS})
+# target_link_libraries(test_tracker nvinfer nvonnxparser)
+# target_link_libraries(test_tracker ${CUDA_LIBRARIES})
+# # target_link_libraries(test_tracker ${PROJECT_SOURCE_DIR}/lib/libyolov5_trt.so)
 
-# add_executable(test_pipeline ${PROJECT_SOURCE_DIR}/test/test_pipeline.cpp ${API_SOURCES})
-# target_link_libraries(test_pipeline ${OpenCV_LIBS})
-# target_link_libraries(test_pipeline nvinfer nvonnxparser)
-# target_link_libraries(test_pipeline ${CUDA_LIBRARIES})
+add_executable(test_processer ${PROJECT_SOURCE_DIR}/test/test_pipeline.cpp ${API_SOURCES})
+target_link_libraries(test_processer ${OpenCV_LIBS})
+target_link_libraries(test_processer nvinfer nvonnxparser)
+target_link_libraries(test_processer ${CUDA_LIBRARIES})
+# target_link_libraries(test_processer ${PROJECT_SOURCE_DIR}/lib/libyolov5_trt.so)
+
+
 
 #############################################
 

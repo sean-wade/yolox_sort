@@ -1,13 +1,15 @@
 /* 
  * @Author: zhanghao
- * @LastEditTime: 2023-01-16 14:08:15
- * @FilePath: /yolox_deploy/src/types/base_macros.h
+ * @LastEditTime: 2023-02-06 14:42:30
+ * @FilePath: /yolox_sort/src/types/base_macros.h
  * @LastEditors: zhanghao
  * @Description: 
  */
 #pragma once
 #include <fstream>
 #include <opencv2/opencv.hpp>
+#include "zh_log.h"
+
 
 // function switch.
 #define DRAW_TRACK_TEXT_INFOS

@@ -1,7 +1,7 @@
 /* 
  * @Author: zhanghao
- * @LastEditTime: 2023-01-16 14:13:44
- * @FilePath: /yolox_deploy/src/types/camera_frame.h
+ * @LastEditTime: 2023-02-06 18:31:34
+ * @FilePath: /yolox_sort/src/types/camera_frame.h
  * @LastEditors: zhanghao
  * @Description: 
  */
@@ -14,6 +14,7 @@
 #include "base_macros.h"
 #include "object_tracked.h"
 #include "object_detected.h"
+#include "object_region.h"
 
 
 struct CameraFrame 
@@ -25,22 +26,24 @@ struct CameraFrame
 
     DetObjectList det_objects;
     TrkObjectList trk_objects;
+    AccsResult accs_result;
 
     void PlotDets();
     void PlotTrks();
     void SaveImg(std::string save_path);
+    void ResizeImg(int w, int h);
 
     CameraFrame()
     {
         image_ptr = nullptr;
-        det_objects.clear();
-        trk_objects.clear();
+        Reset();
     }
 
     void Reset()
     {
         det_objects.clear();
         trk_objects.clear();
+        accs_result.Reset();
     }
 
     void RemoveInvalidDets();

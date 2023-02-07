@@ -1,7 +1,7 @@
 /* 
  * @Author: zhanghao
- * @LastEditTime: 2023-01-16 14:29:38
- * @FilePath: /yolox_deploy/src/lib/tracker/tracker_utils/tracker_utils.h
+ * @LastEditTime: 2023-02-06 14:16:11
+ * @FilePath: /yolox_sort/src/lib/tracker/tracker_utils/tracker_utils.h
  * @LastEditors: zhanghao
  * @Description: 
  */
@@ -97,7 +97,7 @@ static void draw_trk_objects(cv::Mat& image, const TrkObjectList& objects)
         char text[256];
         sprintf(text, "%s_%d", obj.GetClassname().c_str(), obj.track_id);
         int baseLine = 0;
-        float txt_size = 0.5;
+        float txt_size = 0.4;
         cv::Size label_size = cv::getTextSize(text, cv::FONT_HERSHEY_SIMPLEX, txt_size, 1, &baseLine);
         cv::Scalar txt_bk_color = color * 0.7;
 
@@ -109,7 +109,7 @@ static void draw_trk_objects(cv::Mat& image, const TrkObjectList& objects)
         //if (x + label_size.width > image.cols)
             //x = image.cols - label_size.width;
 
-        cv::rectangle(image, cv::Rect(cv::Point(x, y-label_size.height), cv::Size(label_size.width, label_size.height + baseLine)),
+        cv::rectangle(image, cv::Rect(cv::Point(x-1, y-label_size.height), cv::Size(label_size.width, label_size.height + baseLine)),
                       txt_bk_color, -1);
 
         cv::putText(image, text, cv::Point(x, y), cv::FONT_HERSHEY_SIMPLEX, txt_size, txt_color, 1);

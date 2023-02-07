@@ -1,7 +1,7 @@
 /* 
  * @Author: zhanghao
- * @LastEditTime: 2023-01-16 15:16:48
- * @FilePath: /yolox_deploy/src/types/camera_frame.cpp
+ * @LastEditTime: 2023-02-06 14:12:22
+ * @FilePath: /yolox_sort/src/types/camera_frame.cpp
  * @LastEditors: zhanghao
  * @Description: 
  */
@@ -26,6 +26,12 @@ void CameraFrame::PlotTrks()
 void CameraFrame::SaveImg(std::string save_path)
 {
     cv::imwrite(save_path, *image_ptr);
+}
+
+
+void CameraFrame::ResizeImg(int w, int h)
+{
+    cv::resize(*image_ptr, *image_ptr, cv::Size(w, h));
 }
 
 

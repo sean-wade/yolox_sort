@@ -1,0 +1,47 @@
+%YAML:1.0
+---
+ip: "192.168.100.3"
+stream: sub
+format: mjpeg
+width: 640
+height: 480
+encode_width: 640
+encode_height: 480
+encode_rate: 15
+encode_port: 6663
+verbose: 3
+A: !!opencv-matrix
+   rows: 8
+   cols: 1
+   dt: i
+   data: [ 5, 1, 130, 2, 147, 470, 1, 467 ]
+B: !!opencv-matrix
+   rows: 8
+   cols: 1
+   dt: i
+   data: [ 126, 5, 270, 6, 305, 473, 146, 472 ]
+C: !!opencv-matrix
+   rows: 8
+   cols: 1
+   dt: i
+   data: [ 525, 2, 638, 1, 635, 477, 546, 474 ]
+D: !!opencv-matrix
+   rows: 8
+   cols: 1
+   dt: i
+   data: [ 411, 1, 539, 4, 550, 474, 442, 474 ]
+E: !!opencv-matrix
+   rows: 8
+   cols: 1
+   dt: i
+   data: [ 269, 3, 410, 2, 449, 476, 306, 474 ]
+X: !!opencv-matrix
+   rows: 6
+   cols: 1
+   dt: i
+   data: [ 30, 30, 400, 400, 30, 400]
+Y: !!opencv-matrix
+   rows: 6
+   cols: 1
+   dt: i
+   data: [ 30, 30, 400, 400, 400, 30]
