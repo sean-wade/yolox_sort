@@ -1,6 +1,6 @@
 /* 
  * @Author: zhanghao
- * @LastEditTime: 2023-02-06 14:16:11
+ * @LastEditTime: 2023-02-07 14:30:07
  * @FilePath: /yolox_sort/src/lib/tracker/tracker_utils/tracker_utils.h
  * @LastEditors: zhanghao
  * @Description: 
@@ -95,7 +95,8 @@ static void draw_trk_objects(cv::Mat& image, const TrkObjectList& objects)
 
 #ifdef DRAW_TRACK_TEXT_INFOS
         char text[256];
-        sprintf(text, "%s_%d", obj.GetClassname().c_str(), obj.track_id);
+        // sprintf(text, "%s_%d", obj.GetClassname().c_str(), obj.track_id);
+        sprintf(text, "%s", obj.GetClassname().c_str());
         int baseLine = 0;
         float txt_size = 0.4;
         cv::Size label_size = cv::getTextSize(text, cv::FONT_HERSHEY_SIMPLEX, txt_size, 1, &baseLine);

@@ -1,6 +1,6 @@
 /* 
  * @Author: zhanghao
- * @LastEditTime: 2023-02-07 11:00:29
+ * @LastEditTime: 2023-02-07 14:46:31
  * @FilePath: /yolox_sort/src/lib/accs_processer.h
  * @LastEditors: zhanghao
  * @Description: 
@@ -44,6 +44,10 @@ class AccsProcesser
 
         int m_img_width_;
         int m_img_height_;
+        
+#ifdef DEBUG_TIME_ACCS_PROCESSER
+        double m_time_avg_;
+#endif
 };
 
 

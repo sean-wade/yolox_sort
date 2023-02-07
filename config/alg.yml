@@ -6,7 +6,7 @@ height: 480
 num_classes: 3
 ox_path: "../models/zc_nanox_rep_486_640_nopad.onnx"
 eg_path: "../models/zc_nanox_rep_486_640_nopad.engine"
-score_threshold: 0.5
+score_threshold: 0.6
 nms_threshold: 0.25
 ues_fp16: 1
 

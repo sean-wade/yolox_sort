@@ -1,6 +1,6 @@
 /* 
  * @Author: zhanghao
- * @LastEditTime: 2023-02-07 14:23:02
+ * @LastEditTime: 2023-02-07 14:49:25
  * @FilePath: /yolox_sort/test/test_pipeline.cpp
  * @LastEditors: zhanghao
  * @Description: 
@@ -13,7 +13,8 @@ void test_video(std::string video_path);
 
 int main()
 {
-    test_video("../test/videos/2022GC1-28.mp4");
+    // test_video("../test/videos/2022GC1-28.mp4");
+    test_video("../test/videos/tieyun.mp4");
 }
 
 
@@ -43,13 +44,13 @@ void test_video(std::string video_path)
         
         std::string str_people, str_axis;
         camera_frame.accs_result.GetAlarmString(str_people, str_axis);
-        INFO << "Frame " << i << " people : " << str_people << ", axis : " << str_axis;
+        INFO << "Frame " << i << " nums : " << str_people << ", axis : " << str_axis;
 
-        imshow("res", *camera_frame.image_ptr);
-        if (waitKey(30) == 'q') {
-            break;
-        }
+        // imshow("res", *camera_frame.image_ptr);
+        // if (waitKey(30) == 'q') {
+        //     break;
+        // }
     }
-    destroyAllWindows();
+    // destroyAllWindows();
     cap.release();
 }

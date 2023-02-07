@@ -1,6 +1,6 @@
 /* 
  * @Author: zhanghao
- * @LastEditTime: 2023-02-07 14:21:06
+ * @LastEditTime: 2023-02-07 14:48:00
  * @FilePath: /yolox_sort/src/lib/accs_processer.cpp
  * @LastEditors: zhanghao
  * @Description: 
@@ -74,6 +74,11 @@ bool AccsProcesser::Init(const char* alg_yml, const char* channel_yml)
 
 bool AccsProcesser::Process(CameraFrame* camera_frame)
 {
+#ifdef DEBUG_TIME_ACCS_PROCESSER
+    clock_t time_start, time_end;
+    time_start = clock();
+#endif
+    
     camera_frame->ResizeImg(m_img_width_, m_img_height_);
 
     bool status;
@@ -99,5 +104,12 @@ bool AccsProcesser::Process(CameraFrame* camera_frame)
     }
     camera_frame->PlotTrks();
     
+#ifdef DEBUG_TIME_ACCS_PROCESSER
+    time_end = clock();
+    double cur_time = (double)(time_end - time_start) / CLOCKS_PER_SEC * 1000;
+    m_time_avg_ = m_time_avg_ * 0.9 + 0.1 * cur_time;
+    DEBUG << "cur frame using : " << cur_time << "ms, avg time : " << m_time_avg_ << "ms.";
+#endif
+
     return true;
 }

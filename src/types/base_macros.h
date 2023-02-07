@@ -1,6 +1,6 @@
 /* 
  * @Author: zhanghao
- * @LastEditTime: 2023-02-06 14:42:30
+ * @LastEditTime: 2023-02-07 14:45:36
  * @FilePath: /yolox_sort/src/types/base_macros.h
  * @LastEditors: zhanghao
  * @Description: 
@@ -9,6 +9,9 @@
 #include <fstream>
 #include <opencv2/opencv.hpp>
 #include "zh_log.h"
+
+// time counting.
+#define DEBUG_TIME_ACCS_PROCESSER
 
 
 // function switch.
