@@ -16,6 +16,6 @@
 
 
 ## TODO
-- [ ] add fps counting module
-- [ ] manage config file better
-- [ ] manage log output better(FPS etc.)
+- [x] add fps counting module
+- [x] manage config file better
+- [x] manage log output better(FPS etc.)
