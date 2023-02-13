@@ -5,14 +5,23 @@
  * @LastEditors: zhanghao
  * @Description: 
 -->
-# Detector & Tracker for zc
+# ACCS core algorithm
+
+## Features
+
+### Detector
+* Modified yolox-rep-style backbone.
+
+### Tracker
+* Simple sort algorithm.
+
+### Intrusion
+* Poly region intrusion alarm.
 
 
-## Detector
-* Yolox framework, surpport rep-style backbone.
+## Platform
 
-## Tracker
-* Sort algorithm
+* Nvidia TensorRT(Surpport Jetson hardwares)
 
 
 ## TODO
